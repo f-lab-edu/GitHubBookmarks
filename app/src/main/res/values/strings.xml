@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">find-my-flower</string>
+    <string name="changeLayoutManager">change layout</string>
+    <string name="add_button">add button</string>
+    <string name="set_your_id">Set your ID</string>
 </resources>
