@@ -3,4 +3,5 @@
     <string name="changeLayoutManager">change layout</string>
     <string name="add_button">add button</string>
     <string name="set_your_id">Set your ID</string>
+    <string name="get_picture">get picture</string>
 </resources>

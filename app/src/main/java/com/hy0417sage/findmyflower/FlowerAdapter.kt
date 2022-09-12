@@ -6,8 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hy0417sage.findmyflower.databinding.ItemFlowerBinding
+import com.hy0417sage.findmyflower.db.FlowerEntity
 
-class FlowerAdapter(private val flowerList: ArrayList<FlowerData>) :
+
+class FlowerAdapter(private val flowerList: ArrayList<FlowerEntity>) :
     RecyclerView.Adapter<FlowerAdapter.MyViewHolder>() {
 
     //뷰홀더 객체를 생성해준다.
@@ -24,13 +26,12 @@ class FlowerAdapter(private val flowerList: ArrayList<FlowerData>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val flowerData = flowerList[position]
         holder.imageView.clipToOutline = true
+
         holder.textView.text = flowerData.text
         Glide.with(holder.itemView).load(flowerData.img).into(holder.imageView)
 
         holder.itemView.setOnClickListener{
             itemClickListener.onClick(it, position)
-            flowerList.removeAt(position)
-            notifyItemRangeChanged(position, flowerList.size) // 아이템 삭제 후 flowerList.size 재 설정
         }
     }
 
