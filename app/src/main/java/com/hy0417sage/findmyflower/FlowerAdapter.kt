@@ -36,7 +36,7 @@ class FlowerAdapter(private val flowerList: ArrayList<FlowerEntity>) :
     }
 
     //리스너 인터페이스
-    interface OnItemClickListener {
+    fun interface OnItemClickListener {
         fun onClick(v: View, position: Int)
     }
 
