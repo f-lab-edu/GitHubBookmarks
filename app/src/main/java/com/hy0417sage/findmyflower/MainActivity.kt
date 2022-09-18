@@ -3,12 +3,8 @@ package com.hy0417sage.findmyflower
 import android.content.DialogInterface
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -24,7 +20,6 @@ class MainActivity : AppCompatActivity() { //클릭 이벤트 처리 인터페�
     private lateinit var binding: ActivityMainBinding
     private lateinit var db: AppDatabase
     private lateinit var flowerDao: FlowerDao
-    private lateinit var flowerList: ArrayList<FlowerEntity>
     private lateinit var adapter: FlowerAdapter
     private var index = 0
 
@@ -32,9 +27,6 @@ class MainActivity : AppCompatActivity() { //클릭 이벤트 처리 인터페�
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
-        flowerList = ArrayList()
 
         //DB 인스턴스와 DB 작업을 할 수 있는 DAO 를 가져온다.
         db = AppDatabase.getInstance(this)!!
@@ -46,7 +38,7 @@ class MainActivity : AppCompatActivity() { //클릭 이벤트 처리 인터페�
 
     private fun getFlowerList() {
         Thread {
-            flowerList = ArrayList(flowerDao.getAll())
+//            flowerList = ArrayList(flowerDao.getAll())
             initRecyclerView()
         }.start()
     }
@@ -54,27 +46,29 @@ class MainActivity : AppCompatActivity() { //클릭 이벤트 처리 인터페�
     private fun initRecyclerView() {
         //리사이클러 뷰 설정
         runOnUiThread {
-            adapter = FlowerAdapter(flowerList) //어댑터 객체 할당
+            adapter = FlowerAdapter() //어댑터 객체 할당
             binding.recyclerView.adapter = adapter //리사이클러뷰 어댑터로 위에서 만든 어댑터 설정
             binding.recyclerView.layoutManager = GridLayoutManager(this, 2) //레이아웃 매니저 설정
-            deleteFlowerItem()
+//            deleteFlowerItem()
         }
     }
 
-    private fun deleteFlowerItem() {
-        adapter.setItemClickListener(object : FlowerAdapter.OnItemClickListener {
-            override fun onClick(v: View, position: Int) {
-                Thread{
-                    flowerDao.deleteFlower(flowerList[position])
-                    flowerList.removeAt(position)
-                    runOnUiThread {
-                        adapter.notifyDataSetChanged()
-                    }
-                }.start()
-                Toast.makeText(this@MainActivity, "${flowerList[position].text}가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
+//    private fun deleteFlowerItem() {
+//        adapter.setItemClickListener {position ->
+//            Thread {
+//                flowerDao.deleteFlower(flowerList[position])
+//                flowerList.removeAt(position)
+//                runOnUiThread {
+//                    adapter.notifyDataSetChanged()
+//                }
+//            }.start()
+//            Toast.makeText(
+//                this@MainActivity,
+//                "${flowerList[position].text}가 삭제되었습니다.",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//        }
+//    }
 
     private fun changeLayoutManager() {
         index += 1
