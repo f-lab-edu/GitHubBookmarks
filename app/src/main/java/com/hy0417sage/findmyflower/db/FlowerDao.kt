@@ -1,5 +1,6 @@
 package com.hy0417sage.findmyflower.db
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -9,7 +10,7 @@ import androidx.room.Query
 interface FlowerDao {
 
     @Query("SELECT * FROM FlowerEntity")
-    fun getAll(): List<FlowerEntity>
+    fun getAll(): LiveData<List<FlowerEntity>>
 
     @Insert
     fun insertFlower(flower: FlowerEntity)

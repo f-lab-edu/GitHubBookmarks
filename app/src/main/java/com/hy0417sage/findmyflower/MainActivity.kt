@@ -7,6 +7,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -14,13 +16,15 @@ import com.hy0417sage.findmyflower.databinding.ActivityMainBinding
 import com.hy0417sage.findmyflower.db.AppDatabase
 import com.hy0417sage.findmyflower.db.FlowerDao
 import com.hy0417sage.findmyflower.db.FlowerEntity
+import com.hy0417sage.findmyflower.db.FlowerViewModel
 
-class MainActivity : AppCompatActivity() { //클릭 이벤트 처리 인터페이스
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var db: AppDatabase
     private lateinit var flowerDao: FlowerDao
-    private lateinit var adapter: FlowerAdapter
+    private lateinit var flowerViewModel: FlowerViewModel
+    private var adapter: FlowerAdapter = FlowerAdapter()
     private var index = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,49 +32,26 @@ class MainActivity : AppCompatActivity() { //클릭 이벤트 처리 인터페�
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initClickButton()
-        initRecyclerView()
-
-        //DB 인스턴스와 DB 작업을 할 수 있는 DAO 를 가져온다.
         db = AppDatabase.getInstance(this)!!
         flowerDao = db.getFlowerDao()
 
-//        getFlowerList() //저장되어있는 데이터 불러오기
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
+
+        flowerViewModel = ViewModelProvider(this).get(FlowerViewModel::class.java)
+        flowerViewModel.getAllFlowerData.observe(this, Observer { flowerEntity->
+            adapter.updateFlowerList(flowerEntity)
+        })
+
+        initClickButton()
+        deleteFlowerItem()
     }
 
-//    private fun getFlowerList() {
-//        Thread {
-////            flowerList = ArrayList(flowerDao.getAll())
-//            initRecyclerView()
-//        }.start()
-//    }
-
-    private fun initRecyclerView() {
-        //리사이클러 뷰 설정
-        runOnUiThread {
-            adapter = FlowerAdapter() //어댑터 객체 할당
-            binding.recyclerView.adapter = adapter //리사이클러뷰 어댑터로 위에서 만든 어댑터 설정
-            binding.recyclerView.layoutManager = GridLayoutManager(this, 2) //레이아웃 매니저 설정
-//            deleteFlowerItem()
+    private fun deleteFlowerItem() {
+        adapter.setItemClickListener { position ->
+            adapter.deleteFlowerItem(position)
         }
     }
-
-//    private fun deleteFlowerItem() {
-//        adapter.setItemClickListener { position ->
-//            Thread {
-//                flowerDao.deleteFlower(flowerList[position])
-//                flowerList.removeAt(position)
-//                runOnUiThread {
-//                    adapter.notifyDataSetChanged()
-//                }
-//            }.start()
-//            Toast.makeText(
-//                this@MainActivity,
-//                "${flowerList[position].text}가 삭제되었습니다.",
-//                Toast.LENGTH_SHORT
-//            ).show()
-//        }
-//    }
 
     private fun changeLayoutManager() {
         index += 1
@@ -106,7 +87,6 @@ class MainActivity : AppCompatActivity() { //클릭 이벤트 처리 인터페�
                         "${flowerName?.text}".toString()
                     )
                 )
-//                getFlowerList()
             }.start()
         }
         builder.setPositiveButton("확인", listener)
