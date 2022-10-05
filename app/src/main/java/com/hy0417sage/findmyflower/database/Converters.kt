@@ -1,4 +1,4 @@
-package com.hy0417sage.findmyflower.db
+package com.hy0417sage.findmyflower.database
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
