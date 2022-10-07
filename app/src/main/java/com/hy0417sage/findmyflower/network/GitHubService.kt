@@ -10,7 +10,9 @@ interface GitHubService {
 //    @GET("/search/users?q=tom+repos:>42+followers:>{page}")
 //    fun getGitHubPage(@Query("page") page: String): Call<GitHubData>
 
-    @GET("/search/{page}")
+    //https://api.github.com/search/users?q=tom+repos:%3E42+followers:%3E1000
+
+    @GET("search/users?q=tom+repos:>42+followers:>1000")
     fun getGitHubPage(@Query("page") page: String): Call<GitHubData>
 }
 

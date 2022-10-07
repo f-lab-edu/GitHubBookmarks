@@ -18,6 +18,7 @@ import com.hy0417sage.findmyflower.database.AppDatabase
 import com.hy0417sage.findmyflower.database.FlowerDao
 import com.hy0417sage.findmyflower.data.model.FlowerEntity
 import com.hy0417sage.findmyflower.data.repository.GitHubRepository
+import com.hy0417sage.findmyflower.network.GitHubService
 import com.hy0417sage.findmyflower.ui.flower.FlowerAdapter
 import com.hy0417sage.findmyflower.ui.flower.FlowerViewModel
 
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         val gitHubRepository = GitHubRepository()
-        gitHubRepository.loadGithub("users?q=tom+repos:>42+followers:>1000", this)
+        gitHubRepository.loadGithub("incomplete_results", this)
 
         initClickButton()
         deleteFlowerItem()

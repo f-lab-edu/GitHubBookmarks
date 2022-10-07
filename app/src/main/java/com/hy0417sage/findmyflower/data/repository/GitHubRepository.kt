@@ -13,7 +13,7 @@ import retrofit2.Response
 class GitHubRepository {
 
     fun loadGithub(page: String, callback: MainActivity){
-        val call = GithubClient.gitHubService.getGitHubPage(page.toString())
+        val call = GithubClient.gitHubService.getGitHubPage(page)
 
         call.enqueue(object : Callback<GitHubData> {
             override fun onResponse(
