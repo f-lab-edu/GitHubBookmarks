@@ -12,8 +12,8 @@ import retrofit2.Response
 
 class GitHubRepository {
 
-    fun loadGithub(page: String, callback: MainActivity){
-        val call = GithubClient.gitHubService.getGitHubPage(page)
+    fun loadGithub(key: String, repos: Int, followers: Int){
+        val call = GithubClient.gitHubService.getGitHubPage(key, repos, followers)
 
         call.enqueue(object : Callback<GitHubData> {
             override fun onResponse(
@@ -21,8 +21,7 @@ class GitHubRepository {
                 response: Response<GitHubData>
             ) {
                 if(response.isSuccessful){
-                    Toast.makeText(callback,"성공 : " + response.body()?.userId ,Toast.LENGTH_SHORT).show()
-                    Log.d("callback", "성공 : " + response.body()?.userId)
+                    Log.d("callback", "성공 : " + response.body()?.total_count)
                 }else{
                     Log.d("callback", "실패")
                 }

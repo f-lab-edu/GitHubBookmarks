@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         val gitHubRepository = GitHubRepository()
-        gitHubRepository.loadGithub("incomplete_results", this)
+        gitHubRepository.loadGithub("tom", 42, 1000)
 
         initClickButton()
         deleteFlowerItem()
