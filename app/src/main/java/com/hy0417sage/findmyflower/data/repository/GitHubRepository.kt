@@ -12,8 +12,8 @@ import retrofit2.Response
 
 class GitHubRepository {
 
-    fun loadGithub(key: String, repos: Int, followers: Int){
-        val call = GithubClient.gitHubService.getGitHubPage(key, repos, followers)
+    fun loadGithub(key: String){
+        val call = GithubClient.gitHubService.getGitHubPage(key)
 
         call.enqueue(object : Callback<GitHubData> {
             override fun onResponse(

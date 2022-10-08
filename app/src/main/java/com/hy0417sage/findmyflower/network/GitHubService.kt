@@ -8,7 +8,5 @@ import retrofit2.http.Query
 interface GitHubService {
     //https://api.github.com/search/users?q=tom+repos:%3E42+followers:%3E1000
     @GET("/search/users?")
-    fun getGitHubPage(@Query("q") q: String?,
-                      @Query("repos") repos: Int?,
-                      @Query("followers") followers: Int?): Call<GitHubData>
+    fun getGitHubPage(@Query("q") q: String?): Call<GitHubData>
 }

@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         val gitHubRepository = GitHubRepository()
-        gitHubRepository.loadGithub("tom", 42, 1000)
+        gitHubRepository.loadGithub("tom+repos:%3E42+followers:%3E1000")
 
         initClickButton()
         deleteFlowerItem()
