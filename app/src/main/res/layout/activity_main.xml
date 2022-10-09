@@ -19,7 +19,7 @@
 
     <Button
         android:id="@+id/changeLayoutManagerButton"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/changeLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,7 +28,7 @@
 
     <Button
         android:id="@+id/addButton"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/add_button"
         app:layout_constraintBottom_toTopOf="@+id/changeLayoutManagerButton"

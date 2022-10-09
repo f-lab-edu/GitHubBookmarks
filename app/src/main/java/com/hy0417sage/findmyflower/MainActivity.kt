@@ -3,14 +3,12 @@ package com.hy0417sage.findmyflower
 import android.content.DialogInterface
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -18,16 +16,15 @@ import com.hy0417sage.findmyflower.databinding.ActivityMainBinding
 import com.hy0417sage.findmyflower.db.AppDatabase
 import com.hy0417sage.findmyflower.db.FlowerDao
 import com.hy0417sage.findmyflower.db.FlowerEntity
+import com.hy0417sage.findmyflower.db.FlowerViewModel
 
-class MainActivity : AppCompatActivity(), View.OnClickListener { //클릭 이벤트 처리 인터페이스
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var db: AppDatabase
     private lateinit var flowerDao: FlowerDao
-    private lateinit var flowerList: ArrayList<FlowerEntity>
-    private lateinit var adapter: FlowerAdapter
-    private lateinit var changeLayout: Button //changeLayout button 변수 선언
-    private lateinit var addButton: Button
+    private lateinit var flowerViewModel: FlowerViewModel
+    private var adapter: FlowerAdapter = FlowerAdapter()
     private var index = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,50 +32,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener { //클릭 이벤
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        changeLayout = findViewById(R.id.changeLayoutManagerButton)
-        addButton = findViewById(R.id.addButton)
-        changeLayout.setOnClickListener(this)
-        addButton.setOnClickListener(this)
-        flowerList = ArrayList()
-
-        //DB 인스턴스와 DB 작업을 할 수 있는 DAO 를 가져온다.
         db = AppDatabase.getInstance(this)!!
         flowerDao = db.getFlowerDao()
 
-        getFlowerList() //저장되어있는 데이터 불러오기
-    }
+        binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
 
-    private fun getFlowerList() {
-        Thread {
-            flowerList = ArrayList(flowerDao.getAll())
-            Log.d("flowerList", "" + flowerList.size)
-            setRecyclerView()
-        }.start()
-    }
+        flowerViewModel = ViewModelProvider(this).get(FlowerViewModel::class.java)
+        flowerViewModel.getAllFlowerData.observe(this, Observer { flowerEntity->
+            adapter.updateFlowerList(flowerEntity)
+        })
 
-    private fun setRecyclerView() {
-        //리사이클러 뷰 설정
-        runOnUiThread {
-            adapter = FlowerAdapter(flowerList) //어댑터 객체 할당
-            binding.recyclerView.adapter = adapter //리사이클러뷰 어댑터로 위에서 만든 어댑터 설정
-            binding.recyclerView.layoutManager = GridLayoutManager(this, 2) //레이아웃 매니저 설정
-            deleteFlowerItem()
-        }
+        initClickButton()
+        deleteFlowerItem()
     }
 
     private fun deleteFlowerItem() {
-        adapter.setItemClickListener(object : FlowerAdapter.OnItemClickListener {
-            override fun onClick(v: View, position: Int) {
-                Thread{
-                    flowerDao.deleteFlower(flowerList[position])
-                    flowerList.removeAt(position)
-                    runOnUiThread {
-                        adapter.notifyDataSetChanged()
-                    }
-                }.start()
-                Toast.makeText(this@MainActivity, "${flowerList[position].text}가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-            }
-        })
+        adapter.setItemClickListener { position ->
+            adapter.deleteFlowerItem(position)
+        }
     }
 
     private fun changeLayoutManager() {
@@ -95,8 +67,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener { //클릭 이벤
         val builder = AlertDialog.Builder(this)
         builder.setView(layoutInflater.inflate(R.layout.custom_dialog, null))
 
-        val listener = DialogInterface.OnClickListener { p: DialogInterface, num: Int ->
-            val alert = p as AlertDialog //p에 해당 AlertDialog 가 들어온다.
+        val listener = DialogInterface.OnClickListener { alertDialog: DialogInterface, num: Int ->
+            val alert = alertDialog as AlertDialog //p에 해당 AlertDialog 가 들어온다.
             val flowerName: EditText? =
                 alert.findViewById<EditText>(R.id.flowerName) //findViewById를 통해 view 를 가져와서 사용
             val flowerImage: ImageView? =
@@ -115,7 +87,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener { //클릭 이벤
                         "${flowerName?.text}".toString()
                     )
                 )
-                getFlowerList()
             }.start()
         }
         builder.setPositiveButton("확인", listener)
@@ -123,15 +94,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener { //클릭 이벤
         builder.show()
     }
 
-    //클릭 이벤트 처리
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.changeLayoutManagerButton -> {
-                changeLayoutManager()
-            }
-            R.id.addButton -> {
-                addFlower()
-            }
+    private fun initClickButton(){
+        binding.addButton.setOnClickListener {
+            addFlower()
+        }
+        binding.changeLayoutManagerButton.setOnClickListener {
+            changeLayoutManager()
         }
     }
+
 }
