@@ -1,10 +1,11 @@
-package com.hy0417sage.findmyflower.db
+package com.hy0417sage.findmyflower.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import com.hy0417sage.findmyflower.data.model.FlowerEntity
 
 @Dao
 interface FlowerDao {
@@ -13,8 +14,8 @@ interface FlowerDao {
     fun getAll(): LiveData<List<FlowerEntity>>
 
     @Insert
-    fun insertFlower(flower: FlowerEntity)
+    suspend fun insertFlower(flowerEntity: FlowerEntity)
 
     @Delete
-    fun deleteFlower(flower: FlowerEntity)
+    suspend fun deleteFlower(flowerEntity: FlowerEntity)
 }
