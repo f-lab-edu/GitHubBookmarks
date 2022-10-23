@@ -1,16 +1,18 @@
-package com.hy0417sage.findmyflower
+package com.hy0417sage.findmyflower.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hy0417sage.findmyflower.databinding.ItemFlowerBinding
-import com.hy0417sage.findmyflower.db.FlowerEntity
+import com.hy0417sage.findmyflower.data.model.FlowerEntity
+import com.hy0417sage.findmyflower.data.model.GitHub
 
-class FlowerAdapter :
-    RecyclerView.Adapter<FlowerAdapter.MyViewHolder>() {
+class GithubAdapter :
+    RecyclerView.Adapter<GithubAdapter.MyViewHolder>() {
 
     private var flowerList: List<FlowerEntity> = ArrayList()
+    private var gitHubList: List<GitHub.Item> = ArrayList()
     private var itemClickListener: OnItemClickListener? = null
 
     class MyViewHolder(binding: ItemFlowerBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -24,28 +26,25 @@ class FlowerAdapter :
         return MyViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = flowerList.size
+    override fun getItemCount(): Int = gitHubList.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val flowerData = flowerList[position]
-        holder.textView.text = flowerData.text
+        val flowerData = gitHubList?.get(position)
+        holder.textView.text = flowerData?.userId
         holder.imageView.clipToOutline = true
-        Glide.with(holder.itemView).load(flowerData.img).into(holder.imageView)
+        Glide.with(holder.itemView).load(flowerData?.userProfileImg).into(holder.imageView)
 
         holder.itemView.setOnClickListener{
             itemClickListener?.onClick(position)
         }
     }
 
-    fun updateFlowerList(flowerList: List<FlowerEntity>) {
-        this.flowerList = flowerList
+    fun updateGitHudList(gitHubList: List<GitHub.Item>) {
+        this.gitHubList = gitHubList
         notifyDataSetChanged()
     }
 
-    fun deleteFlowerItem(position: Int) {
-//        this.flowerList.remove(position)
-        notifyDataSetChanged()
-    }
+    fun getItemGitHudData(position: Int) : GitHub.Item = gitHubList[position]
 
     fun interface OnItemClickListener {
         fun onClick(position: Int)

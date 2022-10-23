@@ -1,4 +1,4 @@
-package com.hy0417sage.findmyflower.db
+package com.hy0417sage.findmyflower.data.model
 
 import android.graphics.Bitmap
 import androidx.room.ColumnInfo
