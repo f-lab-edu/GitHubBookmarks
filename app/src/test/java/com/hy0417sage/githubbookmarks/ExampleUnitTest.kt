@@ -1,4 +1,4 @@
-package com.hy0417sage.findmyflower
+package com.hy0417sage.githubbookmarks
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.hy0417sage.findmyflower.data.model
+package com.hy0417sage.githubbookmarks.repository.data
 
 import com.google.gson.annotations.SerializedName
 

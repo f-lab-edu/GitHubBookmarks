@@ -1,1 +1,8 @@
-# find-my-flower
+# GitHubBookmarks
+
+- MVVM pattern
+- dataBinding
+- viewModel
+- Retrofit
+- OkHttp
+- Room
