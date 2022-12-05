@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.hy0417sage.githubbookmarks.repository.data.LikeUserEntity
 
-@Database(entities = [LikeUserEntity::class], version = 1)
+@Database(entities = [LikeUserEntity::class], version = 1, exportSchema = false)
 abstract class LikeUserDataBase : RoomDatabase() {
 
     abstract fun getLikeUserDao(): LikeUserDao

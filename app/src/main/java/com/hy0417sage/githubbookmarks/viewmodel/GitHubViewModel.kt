@@ -12,18 +12,12 @@ import com.hy0417sage.githubbookmarks.repository.database.LikeUserDataBase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class GitHubViewModel(application: Application): ViewModel() {
+class GitHubViewModel(private val gitHubRepository: GitHubRepository): ViewModel() {
 
-    private val likeUserDao = LikeUserDataBase.getInstance(application).getLikeUserDao()
-    private val likeUserData: LiveData<List<LikeUserEntity>>
-
-    private val gitHubRepository = GitHubRepository(GitHubClient.getGitHubBaseURL(), likeUserDao)
-    private val gitHubUserData: LiveData<List<GitHub.Item>> //여기에 github 데이터 다 있음!! 여기서 room 데이터 검사하기!!
-
+    private val gitHubUserData: LiveData<List<GitHub.Item>>
     init {
         loadGithubPage()
         gitHubUserData = gitHubRepository.getGithubData
-        likeUserData = gitHubRepository.getLikeUserData
     }
 
     private fun loadGithubPage() =
@@ -31,17 +25,4 @@ class GitHubViewModel(application: Application): ViewModel() {
 
     fun getGitHubUserData() = gitHubUserData
 
-    fun getLikeUserData() = likeUserData
-
-    suspend fun insertFlowerData(likeUserEntity: LikeUserEntity){
-        viewModelScope.launch(Dispatchers.IO) {
-            gitHubRepository.insertLikeUser(likeUserEntity)
-        }
-    }
-
-    suspend fun deleteFlowerData(likeUserEntity: LikeUserEntity){
-        viewModelScope.launch(Dispatchers.IO) {
-            gitHubRepository.deleteLikeUser(likeUserEntity)
-        }
-    }
 }

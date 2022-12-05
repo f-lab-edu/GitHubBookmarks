@@ -11,7 +11,10 @@
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.186" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.186" />
         <entry key="app/src/main/res/drawable/view_box.xml" value="0.2055" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22056159420289856" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_user_detail.xml" value="0.32026519775390627" />
+        <entry key="app/src/main/res/layout/all_userlist_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/best_userlist_layout.xml" value="0.13405797101449277" />
         <entry key="app/src/main/res/layout/custom_dialog.xml" value="0.266304347826087" />
         <entry key="app/src/main/res/layout/item_flower.xml" value="0.375" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.186" />

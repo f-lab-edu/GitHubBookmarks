@@ -23,10 +23,10 @@
                 android:background="@mipmap/ic_launcher"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/likeImage"
                 android:layout_width="20sp"
                 android:layout_height="20sp"
                 android:layout_gravity="right|center_vertical"
-                android:background="@drawable/icon_like"
                 android:layout_marginBottom="18sp"
                 android:layout_marginEnd="3dp"/>
         </FrameLayout>

@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hy0417sage.githubbookmarks.repository.data.GitHub
@@ -14,10 +13,31 @@ import com.hy0417sage.githubbookmarks.view.GitHubAdapter
 import com.hy0417sage.githubbookmarks.view.GitHubBestAdapter
 import com.hy0417sage.githubbookmarks.viewmodel.GitHubViewModel
 import com.hy0417sage.githubbookmarks.databinding.ActivityMainBinding
+import com.hy0417sage.githubbookmarks.network.GitHubClient
+import com.hy0417sage.githubbookmarks.repository.GitHubRepository
+import com.hy0417sage.githubbookmarks.repository.data.LikeUserEntity
+import com.hy0417sage.githubbookmarks.viewmodel.LikeUserViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: GitHubViewModel
+
+    private val gitHubViewModel by lazy {
+        ViewModelProvider(this, object : AbstractSavedStateViewModelFactory(this@MainActivity, null) {
+            override fun <T : ViewModel> create(key: String, modelClass: Class<T>, handle: SavedStateHandle): T {
+                val gitHubRepository = GitHubRepository(GitHubClient.getGitHubBaseURL())
+                return GitHubViewModel(gitHubRepository) as T
+            }
+        })[GitHubViewModel::class.java]
+    }
+
+    private val likeUserViewModel by lazy {
+        ViewModelProvider(this, object : AbstractSavedStateViewModelFactory(this@MainActivity, null) {
+            override fun <T : ViewModel> create(key: String, modelClass: Class<T>, handle: SavedStateHandle): T {
+                return LikeUserViewModel(application) as T
+            }
+        })[LikeUserViewModel::class.java]
+    }
+
     private val allAdapter: GitHubAdapter = GitHubAdapter()
     private val bestAdapter: GitHubBestAdapter = GitHubBestAdapter()
 
@@ -25,12 +45,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        viewModel = ViewModelProvider(this).get(GitHubViewModel::class.java)
-        viewModel.getGitHubUserData().observe(this, Observer{ loadGithubUser ->
+        gitHubViewModel.getGitHubUserData().observe(this, Observer{ loadGithubUser ->
             allAdapter.updateGitHudUser(loadGithubUser)
         })
 
-        viewModel.getLikeUserData().observe(this, Observer { loadLikeUser ->
+        likeUserViewModel.getLikeUserData().observe(this, Observer { loadLikeUser ->
+            //TODO : Best Github User Show
             bestAdapter.updateLikeUser(loadLikeUser)
         })
 
