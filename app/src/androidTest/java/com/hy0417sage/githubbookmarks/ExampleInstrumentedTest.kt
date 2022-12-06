@@ -1,4 +1,4 @@
-package com.hy0417sage.findmyflower
+package com.hy0417sage.githubbookmarks
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.hy0417sage.findmyflower", appContext.packageName)
+        assertEquals("com.hy0417sage.githubbookmarks", appContext.packageName)
     }
 }
