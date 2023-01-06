@@ -2,9 +2,10 @@ package com.hy0417sage.githubbookmarks.repository.data
 
 import com.google.gson.annotations.SerializedName
 
-data class GitHub (
-    @SerializedName("total_count") val totalCount : Int,
-    @SerializedName("items") val items : List<Item>) {
+data class GitHub(
+    @SerializedName("total_count") val totalCount: Int,
+    @SerializedName("items") val items: List<Item>
+) {
     data class Item(
         @SerializedName("login") val userId: String,
         @SerializedName("avatar_url") val userProfileImg: String,

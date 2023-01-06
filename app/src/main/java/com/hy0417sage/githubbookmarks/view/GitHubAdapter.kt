@@ -20,17 +20,22 @@ class GitHubAdapter :
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val binding: AllUserlistLayoutBinding =
-            AllUserlistLayoutBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+            AllUserlistLayoutBinding.inflate(
+                LayoutInflater.from(viewGroup.context),
+                viewGroup,
+                false
+            )
 
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val gitHubData = gitHubList?.get(position)
-        Glide.with(viewHolder.itemView).load(gitHubData?.userProfileImg).into(viewHolder.profileImage)
+        Glide.with(viewHolder.itemView).load(gitHubData?.userProfileImg)
+            .into(viewHolder.profileImage)
         viewHolder.userId.text = gitHubData?.userId
 
-        viewHolder.itemView.setOnClickListener{
+        viewHolder.itemView.setOnClickListener {
             itemClickListener?.onClick(position)
         }
     }
@@ -50,7 +55,7 @@ class GitHubAdapter :
         this.itemClickListener = onItemClickListener
     }
 
-    fun getItemGitHudData(position: Int) : GitHub.Item = gitHubList[position]
+    fun getItemGitHudData(position: Int): GitHub.Item = gitHubList[position]
 }
 
 

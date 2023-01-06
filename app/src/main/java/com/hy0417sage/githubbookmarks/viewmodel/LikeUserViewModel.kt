@@ -5,28 +5,32 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hy0417sage.githubbookmarks.repository.LikeUserRepository
 import com.hy0417sage.githubbookmarks.repository.data.LikeUserEntity
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LikeUserViewModel(private val likeUserRepository: LikeUserRepository) : ViewModel() {
+@HiltViewModel
+class LikeUserViewModel @Inject constructor(private val likeUserRepository: LikeUserRepository) :
+    ViewModel() {
 
     fun wholeLikeUserData(): LiveData<List<LikeUserEntity>> {
-        return likeUserRepository.getLikeUserData
+        return likeUserRepository.wholeLikeUserData()
     }
 
-    fun insertLikeUserData(likeUserEntity: LikeUserEntity){
+    fun insertLikeUserData(likeUserEntity: LikeUserEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             likeUserRepository.insertLikeUser(likeUserEntity)
         }
     }
 
-    fun deleteLikeUserData(likeUserEntity: LikeUserEntity){
+    fun deleteLikeUserData(likeUserEntity: LikeUserEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             likeUserRepository.deleteLikeUser(likeUserEntity)
         }
     }
 
-    fun searchDatabase(searchQuery: String): LiveData<List<LikeUserEntity>> {
-        return likeUserRepository.searchDatabase(searchQuery)
+    fun searchLikeUserDB(searchQuery: String): LiveData<List<LikeUserEntity>> {
+        return likeUserRepository.searchLikeUserDB(searchQuery)
     }
 }

@@ -22,14 +22,19 @@ class GitHubBestAdapter :
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val binding: BestUserlistLayoutBinding =
-            BestUserlistLayoutBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+            BestUserlistLayoutBinding.inflate(
+                LayoutInflater.from(viewGroup.context),
+                viewGroup,
+                false
+            )
 
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val likeUserListData = likeUserList?.get(position)
-        Glide.with(viewHolder.itemView).load(likeUserListData?.userProfileImg).into(viewHolder.imageView)
+        Glide.with(viewHolder.itemView).load(likeUserListData?.userProfileImg)
+            .into(viewHolder.imageView)
         viewHolder.userId.text = likeUserListData?.userId
 
     }

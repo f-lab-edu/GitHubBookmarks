@@ -7,8 +7,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
+import javax.inject.Inject
 
-class GitHubRepository(private val retrofit: Retrofit) {
+class GitHubRepository @Inject constructor(private val retrofit: Retrofit) {
 
     val getGithubData: MutableLiveData<List<GitHub.Item>> = MutableLiveData()
 
@@ -26,6 +27,7 @@ class GitHubRepository(private val retrofit: Retrofit) {
                     getGithubData.value = response.body()?.items
                 }
             }
+
             override fun onFailure(call: Call<GitHub>, t: Throwable) {
             }
         })
