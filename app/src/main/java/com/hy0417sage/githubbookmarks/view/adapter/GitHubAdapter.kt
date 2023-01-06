@@ -1,4 +1,4 @@
-package com.hy0417sage.githubbookmarks.view
+package com.hy0417sage.githubbookmarks.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

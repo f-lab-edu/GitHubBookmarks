@@ -16,11 +16,11 @@ class GitHubViewModel @Inject constructor(private val gitHubRepository: GitHubRe
     }
 
     private fun loadGithubPage() {
-        gitHubRepository.loadGithub("tom+repos:%3E42+followers:%3E1000")
+        gitHubRepository.loadGithubPage("tom+repos:%3E42+followers:%3E1000")
     }
 
     fun getGitHubUserData(): LiveData<List<GitHub.Item>> {
-        return gitHubRepository.getGithubData
+        return gitHubRepository.wholeGitHubData()
     }
 
 }

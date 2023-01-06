@@ -1,13 +1,10 @@
-package com.hy0417sage.githubbookmarks.view
+package com.hy0417sage.githubbookmarks.view.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.hy0417sage.githubbookmarks.R
 import com.hy0417sage.githubbookmarks.databinding.BestUserlistLayoutBinding
-import com.hy0417sage.githubbookmarks.repository.data.GitHub
 import com.hy0417sage.githubbookmarks.repository.data.LikeUserEntity
 
 class GitHubBestAdapter :

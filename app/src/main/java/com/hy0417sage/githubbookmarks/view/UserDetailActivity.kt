@@ -1,14 +1,15 @@
-package com.hy0417sage.githubbookmarks
+package com.hy0417sage.githubbookmarks.view
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.hy0417sage.githubbookmarks.R
 import com.hy0417sage.githubbookmarks.databinding.ActivityUserDetailBinding
 import com.hy0417sage.githubbookmarks.repository.data.LikeUserEntity
 import com.hy0417sage.githubbookmarks.viewmodel.LikeUserViewModel
@@ -17,10 +18,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class UserDetailActivity : AppCompatActivity() {
 
-    private val TAG = "UserDetailActivity"
     private lateinit var binding: ActivityUserDetailBinding
     private var checkLikeUser: Boolean = false
-
     private val likeUserViewModel: LikeUserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,8 +29,6 @@ class UserDetailActivity : AppCompatActivity() {
         val userId = intent.getStringExtra("userId")
         val userProfileImg = intent.getStringExtra("userProfileImg")
         val userGitHubPage = intent.getStringExtra("userGitHubPage")
-
-        Log.d(TAG, "${userId.toString()} ${userProfileImg.toString()} ${userGitHubPage.toString()}")
 
         binding.userId.text = userId
         Glide.with(binding.profileImage).load(userProfileImg).into(binding.profileImage)
@@ -62,6 +59,14 @@ class UserDetailActivity : AppCompatActivity() {
                 )
             }
         }
+    }
 
+    companion object {
+        fun newIntent(context: Context, id: String?, title: String?, mainText: String?): Intent =
+            Intent(context, UserDetailActivity::class.java).apply {
+                putExtra("userId", id)
+                putExtra("userProfileImg", title)
+                putExtra("userGitHubPage", mainText)
+            }
     }
 }
