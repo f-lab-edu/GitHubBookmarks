@@ -15,7 +15,9 @@ import com.hy0417sage.githubbookmarks.viewmodel.GitHubViewModel
 import com.hy0417sage.githubbookmarks.databinding.ActivityMainBinding
 import com.hy0417sage.githubbookmarks.network.GitHubClient
 import com.hy0417sage.githubbookmarks.repository.GitHubRepository
+import com.hy0417sage.githubbookmarks.repository.LikeUserRepository
 import com.hy0417sage.githubbookmarks.repository.data.LikeUserEntity
+import com.hy0417sage.githubbookmarks.repository.database.LikeUserDataBase
 import com.hy0417sage.githubbookmarks.viewmodel.LikeUserViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -33,7 +35,8 @@ class MainActivity : AppCompatActivity() {
     private val likeUserViewModel by lazy {
         ViewModelProvider(this, object : AbstractSavedStateViewModelFactory(this@MainActivity, null) {
             override fun <T : ViewModel> create(key: String, modelClass: Class<T>, handle: SavedStateHandle): T {
-                return LikeUserViewModel(application) as T
+                val likeUserDao = LikeUserDataBase.getInstance(application).getLikeUserDao()
+                return LikeUserViewModel(LikeUserRepository(likeUserDao)) as T
             }
         })[LikeUserViewModel::class.java]
     }
@@ -49,7 +52,7 @@ class MainActivity : AppCompatActivity() {
             allAdapter.updateGitHudUser(loadGithubUser)
         })
 
-        likeUserViewModel.getLikeUserData().observe(this, Observer { loadLikeUser ->
+        likeUserViewModel.wholeLikeUserData().observe(this, Observer { loadLikeUser ->
             //TODO : Best Github User Show
             bestAdapter.updateLikeUser(loadLikeUser)
         })

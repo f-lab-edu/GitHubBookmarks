@@ -17,9 +17,9 @@ class LikeUserRepository(private val likeUserDao: LikeUserDao) {
         likeUserDao.deleteUser(likeUserEntity)
     }
 
-//    fun searchLikeUserDB(searchQuery: String): LiveData<List<LikeUserEntity>> {
-//        return likeUserDao.searchDatabase(searchQuery)
-//    }
+    fun searchLikeUserDB(searchQuery: String): LiveData<List<LikeUserEntity>> {
+        return likeUserDao.searchDatabase(searchQuery)
+    }
 
     fun searchDatabase(searchQuery: String): LiveData<List<LikeUserEntity>> {
         return likeUserDao.searchDatabase(searchQuery)
